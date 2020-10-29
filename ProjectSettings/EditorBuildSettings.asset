@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/DriveToTarget.unity
+    guid: 171f6e902bbe5fb4e929e60498fd84db
   m_configObjects: {}

@@ -7,6 +7,8 @@ public class Movement : MonoBehaviour
 {
     public WheelCollider frontLeftWheelCollider;
     public WheelCollider frontRightWheelCollider;
+    public WheelCollider backLeftWheelCollider;
+    public WheelCollider backRightWheelCollider;
     public GameObject frontLeftWheel;
     public GameObject frontRightWheel;
     public float maxMotorTorque;
@@ -54,6 +56,9 @@ public class Movement : MonoBehaviour
 
         frontLeftWheelCollider.motorTorque = motorTorque;
         frontRightWheelCollider.motorTorque = motorTorque;
+
+        backLeftWheelCollider.motorTorque = motorTorque;
+        backRightWheelCollider.motorTorque = motorTorque;
 
         frontLeftWheelCollider.brakeTorque = brakeTorque;
         frontRightWheelCollider.brakeTorque = brakeTorque;

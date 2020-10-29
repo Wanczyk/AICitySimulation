@@ -18,6 +18,9 @@ public class DriveToTarget : Agent
     
     private float old_distance = 9999999999f;
 
+    private float lastCheckTime;
+    private float xSeconds = 6.0f;
+
     protected Vector3 AgentVelocity
     {
         get { return m_rbody.velocity; }
@@ -31,6 +34,7 @@ public class DriveToTarget : Agent
 
     void Start()
     {
+        lastCheckTime = Time.time;
         m_rbody = GetComponent<Rigidbody>();
         m_controller = GetComponent<Movement>();
 
@@ -44,13 +48,14 @@ public class DriveToTarget : Agent
 
     public void FixedUpdate()
     {
-        // CheckDistanceToTarget();
+        CheckDistanceToTarget();
 
         // If the car falls off the platform, end episode
         if (this.transform.localPosition.y < 0)
         {
             EndEpisode();
         }
+        
     }
 
     public override void OnEpisodeBegin()
@@ -97,20 +102,29 @@ public class DriveToTarget : Agent
         );
         // Upon reaching the target, respawn it to a random position
         // and add reward of +1
-            Debug.Log(distanceToTarget);
-        if (distanceToTarget < 1)
+        if (distanceToTarget < 2f)
         {
-            Debug.Log("Target!!");
+            Debug.Log("Close");
             m_targetReached = true;
             AddReward(1f);
             EndEpisode();
+        }
+        
+        if ((Time.time - lastCheckTime) > xSeconds)
+        {
+            Debug.Log("time up");
+            if((int)(old_distance*10000) == (int)(distanceToTarget*10000))
+            {
+                Debug.Log("dont moving");
+                EndEpisode();
+            }
+            lastCheckTime = Time.time;
         }
         old_distance = distanceToTarget;
     }
 
     void RespawnAgent()
     {
-        Debug.Log("RespawnAgent");
         m_controller.SetThrottle(0);
         m_controller.SetSteering(0);
         m_controller.SetBrake(1);
@@ -122,7 +136,6 @@ public class DriveToTarget : Agent
 
     void RespawnTarget()
     {
-        Debug.Log("RespawnTarget");
         Vector3 extents = ground.bounds.extents - (Vector3.one * 3);
         target.localPosition = new Vector3(Random.Range(-extents.x, extents.x),
                                            0.5f,
