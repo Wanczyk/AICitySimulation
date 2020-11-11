@@ -9,6 +9,14 @@ TagManager:
   - wheelColliders
   - Car
   - Target
+  - Car0
+  - Car1
+  - Car2
+  - Car3
+  - Car4
+  - Car5
+  - FrontBumper
+  - BackBumper
   layers:
   - Default
   - TransparentFX
@@ -18,8 +26,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Street
+  - Car
   - 
   - 
   - 

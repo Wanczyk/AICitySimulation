@@ -23,6 +23,15 @@ public class test : MonoBehaviour
             Debug.Log("collision");
         }
     }
+    
+    private void OnTriggerEnter(Collider collider)
+    {
+        if(collider.transform.gameObject.CompareTag("Target"))
+        {
+            Debug.Log("Target");
+        }
+    }
+    
     void OnCollisionExit (Collision collision)
     {
         if(collision.transform.gameObject.tag == "Curb")

@@ -47,9 +47,9 @@ public class Movement : MonoBehaviour
         float brakeTorque = maxBrakeTorque * m_brake;
 
 
-        float motor = maxMotorTorque * Input.GetAxis("Vertical");
-        float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
-        float brake = maxBrakeTorque * Input.GetAxis("Jump");
+        // float motor = maxMotorTorque * Input.GetAxis("Vertical");
+        // float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
+        // float brake = maxBrakeTorque * Input.GetAxis("Jump");
 
         frontLeftWheelCollider.steerAngle = steerAngle;
         frontRightWheelCollider.steerAngle = steerAngle;
@@ -65,15 +65,15 @@ public class Movement : MonoBehaviour
 
         // frontLeftWheelCollider.steerAngle = steering;
         // frontRightWheelCollider.steerAngle = steering;
-
+        //
         // frontLeftWheelCollider.motorTorque = motor;
         // frontRightWheelCollider.motorTorque = motor;
-
+        //
         // frontLeftWheelCollider.brakeTorque = brake;
         // frontRightWheelCollider.brakeTorque = brake;
         
-        frontLeftWheel.transform.localRotation = Quaternion.Slerp(frontLeftWheel.transform.localRotation, Quaternion.Euler(0f, 90f + steering, 0f), Time.deltaTime);
-        frontRightWheel.transform.localRotation = Quaternion.Slerp(frontRightWheel.transform.localRotation, Quaternion.Euler(180f, 90f + steering, 0f), Time.deltaTime);
+        frontLeftWheel.transform.localRotation = Quaternion.Slerp(frontLeftWheel.transform.localRotation, Quaternion.Euler(0f, 90f + steerAngle, 0f), Time.deltaTime);
+        frontRightWheel.transform.localRotation = Quaternion.Slerp(frontRightWheel.transform.localRotation, Quaternion.Euler(180f, 90f + steerAngle, 0f), Time.deltaTime);
 
         
     }

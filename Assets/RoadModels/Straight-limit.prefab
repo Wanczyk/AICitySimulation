@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: straight-curbV2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 739c6cef3710b8149973b18a1da97985,
+        type: 3}
+      propertyPath: m_TagString
+      value: Curb
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 739c6cef3710b8149973b18a1da97985, type: 3}
 --- !u!1 &4125247067695398020 stripped
