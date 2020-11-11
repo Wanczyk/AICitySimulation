@@ -27,6 +27,7 @@ public class DriveToTarget : Agent
     private float _oldDistance = 9999999999f;
 
     private float _lastCheckTime;
+    private float _lastCheckDistance = 0f;
     private const float XSeconds = 6.0f;
 
     private int _targetIndex = 0;
@@ -62,7 +63,7 @@ public class DriveToTarget : Agent
         
         if (AgentLocalVelocity.z > 0.01f)
         {
-            AddReward(0.0005f);
+            AddReward(0.001f);
         }
         
         if (this.transform.localPosition.y < 0)
@@ -93,7 +94,7 @@ public class DriveToTarget : Agent
         if(collision.transform.gameObject.CompareTag("Curb"))
         {
             // Debug.Log("Curb");
-            AddReward(-0.8f);
+            // AddReward(-0.8f);
             OnEndEpisode();
         }
     }
@@ -103,7 +104,7 @@ public class DriveToTarget : Agent
         if(collision.transform.gameObject.CompareTag("Curb"))
         {
             // Debug.Log("Exit Curb");
-            AddReward(0.5f);
+            // AddReward(0.5f);
         }
     }
     
@@ -185,23 +186,24 @@ public class DriveToTarget : Agent
         {
             Debug.Log("Target Reached!!");
             _targetReached = true;
-            AddReward(1f);
+            SetReward(1f);
             OnEndEpisode();
         }
         
         if (distanceToTarget < _oldDistance)
         {
-            // AddReward(1f * (1/distanceToTarget));
+            AddReward(1f * (1/distanceToTarget));
         }
         
-        if ((Time.time - _lastCheckTime) > XSeconds*10)
+        if ((Time.time - _lastCheckTime) > XSeconds)
         {
-            if((int)(_oldDistance*10000) == (int)(distanceToTarget*10000))
+            if((int)(_lastCheckDistance*10000) == (int)(distanceToTarget*10000))
             {
                 // AddReward(-0.1f);
                 OnEndEpisode();
             }
             _lastCheckTime = Time.time;
+            _lastCheckDistance = distanceToTarget;
         }
         _oldDistance = distanceToTarget;
     }
@@ -215,8 +217,8 @@ public class DriveToTarget : Agent
         _rigidBody.angularVelocity = Vector3.zero;
         
         //street
-        int x = 0;
-        int z = 0;
+        int x = Random.Range(-20, 20);
+        int z = Random.Range(-20, 20);
         // int randomNumber1 = Random.Range(0, 1);
         // int x = 0;
         // int z = 0;

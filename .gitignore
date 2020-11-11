@@ -96,4 +96,5 @@ $RECYCLE.BIN/
 *.lnk
 
 venv/
+venv36/
 .idea

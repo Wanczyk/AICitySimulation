@@ -289,7 +289,7 @@ MonoBehaviour:
   frontRightWheel: {fileID: 5276044013501607009}
   maxMotorTorque: 300
   maxBrakeTorque: 800
-  maxSteeringAngle: 25
+  maxSteeringAngle: 55
 --- !u!114 &260208030
 MonoBehaviour:
   m_ObjectHideFlags: 0
