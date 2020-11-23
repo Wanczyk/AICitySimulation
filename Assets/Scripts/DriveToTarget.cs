@@ -1,36 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
-using UnityEditor;
-using UnityEngine.UIElements;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Movement))]
 public class DriveToTarget : Agent
 {
+    public int xBorder;
+    public int zBorder;
     public float minDistance;
-    public List<Transform> target;
-    public Transform street;
+    public Transform target;
     public Transform frontRaycast;
-    public Transform backRaycast;
     public Transform leftRaycast;
     public Transform rightRaycast;
-    public GameObject frontBumper;
-    public GameObject backBumper;
+    public float xSeconds = 3;
     private Rigidbody _rigidBody;
-    public Material material;
     private Movement _movementController;
     private bool _targetReached = false;
-    
-    private float _oldDistance = 9999999999f;
-
+    private float _oldDistance = 9999999f;
     private float _lastCheckTime;
-    private float _lastCheckDistance = 0f;
-    private const float XSeconds = 6.0f;
-
-    private int _targetIndex = 0;
 
     protected Vector3 AgentVelocity
     {
@@ -43,10 +36,6 @@ public class DriveToTarget : Agent
             Vector3 localVelocity = transform.InverseTransformDirection(_rigidBody.velocity);
             return localVelocity;
         }
-    }
-    protected string CarName
-    {
-        get { return this.name; }
     }
 
     void Start()
@@ -63,12 +52,16 @@ public class DriveToTarget : Agent
         
         if (AgentLocalVelocity.z > 0.01f)
         {
-            AddReward(0.001f);
+            // AddReward(0.001f);
         }
         
-        if (this.transform.localPosition.y < 0)
+        if (this.transform.localPosition.y < 0 || 
+            this.transform.localPosition.x > xBorder || 
+            this.transform.localPosition.y > zBorder || 
+            this.transform.localPosition.x < xBorder * -1 || 
+            this.transform.localPosition.y < zBorder * -1)
         {
-            OnEndEpisode();
+            EndEpisode();
         }
     }
 
@@ -85,17 +78,15 @@ public class DriveToTarget : Agent
     public override void OnActionReceived(float[] action)
     {
         _movementController.SetSteering(action[0]);
-        _movementController.SetThrottle(action[1]);
-        _movementController.SetBrake(action[2]);
+        // _movementController.SetThrottle(action[1]);
+        // _movementController.SetBrake(action[2]);
     } 
 
     void OnCollisionEnter(Collision collision)
     {
         if(collision.transform.gameObject.CompareTag("Curb"))
         {
-            // Debug.Log("Curb");
-            // AddReward(-0.8f);
-            OnEndEpisode();
+            EndEpisode();
         }
     }
     
@@ -103,16 +94,6 @@ public class DriveToTarget : Agent
     {
         if(collision.transform.gameObject.CompareTag("Curb"))
         {
-            // Debug.Log("Exit Curb");
-            // AddReward(0.5f);
-        }
-    }
-    
-    private void OnTriggerEnter(Collider colliderDetection)
-    {
-        if(colliderDetection.transform.gameObject.GetInstanceID() == target[_targetIndex].GetInstanceID())
-        {
-            
         }
     }
 
@@ -133,7 +114,7 @@ public class DriveToTarget : Agent
         {
             if(objectHit.transform.tag=="Car" && objectHit.distance < 2f){
                 // AddReward(-0.5f);
-                // OnEndEpisode();
+                // EndEpisode();
                 Debug.Log("car close");
             }
         }
@@ -167,157 +148,120 @@ public class DriveToTarget : Agent
         }
     }
 
-    private void OnEndEpisode()
-    {
-        Material destroyMaterial = target[_targetIndex].GetComponent<MeshRenderer>().material;
-        Destroy(destroyMaterial);
-        // target[_targetIndex].tag = "Untagged";
-        EndEpisode();
-    }
-
     void CheckDistanceToTarget()
     {
         var distanceToTarget = Vector3.Distance(
             this.transform.position,
-            target[_targetIndex].transform.position
+            target.transform.position
         );
 
         if (distanceToTarget < minDistance)
         {
             Debug.Log("Target Reached!!");
             _targetReached = true;
-            SetReward(1f);
-            OnEndEpisode();
+            AddReward(1f);
+            EndEpisode();
         }
         
         if (distanceToTarget < _oldDistance)
         {
-            AddReward(1f * (1/distanceToTarget));
+            // AddReward(0.1f * (1/distanceToTarget));
         }
         
-        if ((Time.time - _lastCheckTime) > XSeconds)
+        if ((Time.time - _lastCheckTime) > xSeconds)
         {
-            if((int)(_lastCheckDistance*10000) == (int)(distanceToTarget*10000))
+            if((int)(_oldDistance*10000) == (int)(distanceToTarget*10000))
             {
                 // AddReward(-0.1f);
-                OnEndEpisode();
+                EndEpisode();
             }
             _lastCheckTime = Time.time;
-            _lastCheckDistance = distanceToTarget;
+            _oldDistance = distanceToTarget;
         }
         _oldDistance = distanceToTarget;
     }
 
     void RespawnAgent()
     {
-        _movementController.SetThrottle(0);
+        // _movementController.SetThrottle(0);
         _movementController.SetSteering(0);
-        _movementController.SetBrake(1);
+        // _movementController.SetBrake(1);
         _rigidBody.velocity = Vector3.zero;
         _rigidBody.angularVelocity = Vector3.zero;
+
+        var coordinates = ReturnRandomXY(xBorder, zBorder, true);
         
-        //street
-        int x = Random.Range(-20, 20);
-        int z = Random.Range(-20, 20);
-        // int randomNumber1 = Random.Range(0, 1);
-        // int x = 0;
-        // int z = 0;
-        // if (randomNumber1 == 0)
-        // {
-        //     int randomNumber2 = Random.Range(0, 2);
-        //     if (randomNumber2 == 0)
-        //     {
-        //         //siple drive to target
-        //         z = Random.Range(-20, 20);
-        //         x = -20;
-        //         
-        //         
-        //         //CompleteCity
-        //         // x = -79;
-        //         // z = Random.Range(-62, 62);
-        //     }
-        //     else if (randomNumber2 == 1)
-        //     {
-        //         //siple drive to target
-        //         z = Random.Range(-20, 20);
-        //         x = 0; 
-        //         
-        //         //CompleteCity
-        //         // x = 0;
-        //         // z = Random.Range(-62, 62);
-        //     }
-        //     else if (randomNumber2 == 2)
-        //     {
-        //         //siple drive to target
-        //         z = Random.Range(-20, 20);
-        //         x = 20;
-        //         
-        //         //CompleteCity
-        //         // x = 79;
-        //         // z = Random.Range(-62, 62);
-        //     }
-        // }
-        // else
-        // {
-        //     int randomNumber2 = Random.Range(0, 2);
-        //     if (randomNumber2 == 0)
-        //     {
-        //         //siple drive to target
-        //         x = Random.Range(-20, 20);
-        //         z = -20;
-        //         
-        //         //CompleteCity
-        //         //x = Random.Range(-70, 70);
-        //         // z = -72;
-        //     }
-        //     else if (randomNumber2 == 1)
-        //     {
-        //         //siple drive to target
-        //         x = Random.Range(-20, 20);
-        //         
-        //         //CompleteCity
-        //         // x = Random.Range(-70, 70);
-        //         z = 0;
-        //     }
-        //     else if (randomNumber2 == 2)
-        //     {
-        //         //siple drive to target
-        //         x = Random.Range(-20, 20);
-        //         z = 20;
-        //         
-        //         //CompleteCity
-        //         // x = Random.Range(-70, 70);
-        //         // z = 72;
-        //     }
-        // }
-        this.transform.localPosition = new Vector3(x, 1f, z);
+        this.transform.localPosition = new Vector3(coordinates.Item1, 1f, coordinates.Item2);
         this.transform.rotation = Quaternion.Euler(0, Random.Range(-180, 180), 0);
     }
 
     void RespawnTarget()
     {
-        _targetIndex = Random.Range(0, target.Count);
-        // do
-        // {
-        //     _targetIndex = Random.Range(0, target.Count);
-        //     Debug.Log(_targetIndex);
-        // } while (!target[_targetIndex].CompareTag("Untagged"));
-        //
-        target[_targetIndex].GetComponent<MeshRenderer>().material = material;
-        // target[_targetIndex].tag = CarName;
+        
+        var coordinates = ReturnRandomXY(xBorder, zBorder, true);
+        target.localPosition = new Vector3(coordinates.Item1,
+            0.5f,
+            coordinates.Item2);
+        target.rotation = Quaternion.Euler(0, Random.Range(-180, 180), 0);
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        Vector3 dirToTarget = (target[_targetIndex].position - this.transform.position).normalized;
+        Vector3 dirToTarget = (target.position - this.transform.position).normalized;
 
         sensor.AddObservation(
-            this.transform.InverseTransformPoint(target[_targetIndex].transform.position)); // vec 3
+            this.transform.InverseTransformPoint(target.transform.position)); // vec 3
 
         sensor.AddObservation(
             this.transform.InverseTransformVector(AgentVelocity)); // vec 3
 
         sensor.AddObservation(
             this.transform.InverseTransformDirection(dirToTarget)); // vec 3
+    }
+
+    (int, int) ReturnRandomXY(int maxX, int maxZ, bool wholeSpectrum = false)
+    {
+        if (wholeSpectrum)
+        {
+            return (Random.Range(maxX * -1, maxX), Random.Range(maxZ * -1, maxZ));
+        }
+        int randomNumber1 = Random.Range(0, 1);
+        int x = 0;
+        int z = 0;
+        if (randomNumber1 == 0)
+        {
+            int randomNumber2 = Random.Range(0, 2);
+            if (randomNumber2 == 0)
+            {
+                x = maxX * -1;
+            }
+            else if (randomNumber2 == 1)
+            {
+                x = 0;
+            }
+            else if (randomNumber2 == 2)
+            {
+                x = maxX;
+            }
+            z = Random.Range(maxZ * -1, maxZ);
+        }
+        else
+        {
+            int randomNumber2 = Random.Range(0, 2);
+            if (randomNumber2 == 0)
+            {
+                z = maxZ * -1;
+            }
+            else if (randomNumber2 == 1)
+            {
+                z = 0;
+            }
+            else if (randomNumber2 == 2)
+            {
+                z = maxZ;
+            }
+            x = Random.Range(maxX * -1, maxX);
+        }
+        return (x, z);
     }
 }

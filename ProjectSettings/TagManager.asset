@@ -17,6 +17,7 @@ TagManager:
   - Car5
   - FrontBumper
   - BackBumper
+  - Meta
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - 
   - Street
   - Car
-  - 
+  - Target
   - 
   - 
   - 

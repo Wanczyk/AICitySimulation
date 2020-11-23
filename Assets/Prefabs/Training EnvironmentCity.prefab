@@ -1059,6 +1059,11 @@ PrefabInstance:
       propertyPath: street
       value: 
       objectReference: {fileID: 1707403365905012407}
+    - target: {fileID: 260208032, guid: 26f96213efc1f004abca123c61460406, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 8c80f1b986243eb49afb7bd2ae71c414,
+        type: 3}
     - target: {fileID: 5042113768284890025, guid: 26f96213efc1f004abca123c61460406,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -2188,7 +2188,7 @@ PrefabInstance:
     - target: {fileID: 260208031, guid: 26f96213efc1f004abca123c61460406, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2012910060}
     - target: {fileID: 260208031, guid: 26f96213efc1f004abca123c61460406, type: 3}
       propertyPath: ground
       value: 
@@ -2248,6 +2248,14 @@ PrefabInstance:
     - target: {fileID: 260208031, guid: 26f96213efc1f004abca123c61460406, type: 3}
       propertyPath: minDistance
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 260208031, guid: 26f96213efc1f004abca123c61460406, type: 3}
+      propertyPath: xBorder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 260208031, guid: 26f96213efc1f004abca123c61460406, type: 3}
+      propertyPath: zBorder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 260208032, guid: 26f96213efc1f004abca123c61460406, type: 3}
       propertyPath: m_Model
