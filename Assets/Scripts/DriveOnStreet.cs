@@ -128,7 +128,7 @@ public class DriveOnStreet : Agent
                 _targetReached = true;
                 EndEpisode();
             }
-            else if(_nextCheckPointIndex == 0 && !clockwise)
+            else if(_nextCheckPointIndex == 1 && !clockwise)
             {
                 // _nextCheckPointIndex = 1;
                 _targetReached = true;
