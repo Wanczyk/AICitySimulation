@@ -1,0 +1,2 @@
+model_checkpoint_path: "Car-210224.ckpt"
+all_model_checkpoint_paths: "Car-210224.ckpt"

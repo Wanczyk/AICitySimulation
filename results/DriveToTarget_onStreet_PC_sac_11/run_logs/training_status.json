@@ -1,0 +1,23 @@
+{
+    "Car": {
+        "checkpoints": [
+            {
+                "steps": 48911,
+                "file_path": "results\\DriveToTarget_onStreet_PC_sac_11\\Car\\Car-48911.nn",
+                "reward": null,
+                "creation_time": 1605288795.2825038
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 48911,
+            "file_path": "results\\DriveToTarget_onStreet_PC_sac_11\\Car.nn",
+            "reward": null,
+            "creation_time": 1605288795.2825038
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.21.1",
+        "tensorflow_version": "2.3.1"
+    }
+}

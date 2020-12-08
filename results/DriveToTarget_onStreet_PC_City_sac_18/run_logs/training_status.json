@@ -1,0 +1,29 @@
+{
+    "Car": {
+        "checkpoints": [
+            {
+                "steps": 499945,
+                "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_18\\Car\\Car-499945.nn",
+                "reward": 6.625000369735062,
+                "creation_time": 1606152307.2337434
+            },
+            {
+                "steps": 500009,
+                "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_18\\Car\\Car-500009.nn",
+                "reward": 6.625000369735062,
+                "creation_time": 1606152307.6696718
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500009,
+            "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_18\\Car.nn",
+            "reward": 6.625000369735062,
+            "creation_time": 1606152307.6696718
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.21.1",
+        "tensorflow_version": "2.3.1"
+    }
+}

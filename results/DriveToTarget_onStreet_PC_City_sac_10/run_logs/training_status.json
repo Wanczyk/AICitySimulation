@@ -1,0 +1,47 @@
+{
+    "Car": {
+        "checkpoints": [
+            {
+                "steps": 499949,
+                "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_10\\Car\\Car-499949.nn",
+                "reward": 0.8260001167654991,
+                "creation_time": 1605451775.3619661
+            },
+            {
+                "steps": 999939,
+                "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_10\\Car\\Car-999939.nn",
+                "reward": -0.9800000190734863,
+                "creation_time": 1605452225.8665342
+            },
+            {
+                "steps": 1499936,
+                "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_10\\Car\\Car-1499936.nn",
+                "reward": null,
+                "creation_time": 1605452680.083663
+            },
+            {
+                "steps": 1999944,
+                "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_10\\Car\\Car-1999944.nn",
+                "reward": -0.9539999961853027,
+                "creation_time": 1605453138.7644584
+            },
+            {
+                "steps": 2387412,
+                "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_10\\Car\\Car-2387412.nn",
+                "reward": 2.1949999779462814,
+                "creation_time": 1605453493.2302785
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2387412,
+            "file_path": "results\\DriveToTarget_onStreet_PC_City_sac_10\\Car.nn",
+            "reward": 2.1949999779462814,
+            "creation_time": 1605453493.2302785
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.1.0",
+        "mlagents_version": "0.21.1",
+        "tensorflow_version": "2.3.1"
+    }
+}

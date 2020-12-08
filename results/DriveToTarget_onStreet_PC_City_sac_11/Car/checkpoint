@@ -1,0 +1,5 @@
+model_checkpoint_path: "Car-1585597.ckpt"
+all_model_checkpoint_paths: "Car-499952.ckpt"
+all_model_checkpoint_paths: "Car-999986.ckpt"
+all_model_checkpoint_paths: "Car-1499939.ckpt"
+all_model_checkpoint_paths: "Car-1585597.ckpt"
