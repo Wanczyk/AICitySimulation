@@ -1,0 +1,48 @@
+{
+    "Car": {
+        "checkpoints": [
+            {
+                "steps": 1999915,
+                "file_path": "results\\drive_on_city\\Car\\Car-1999915.onnx",
+                "reward": 1.5720588599934298,
+                "creation_time": 1609452679.4290698
+            },
+            {
+                "steps": 2499855,
+                "file_path": "results\\drive_on_city\\Car\\Car-2499855.onnx",
+                "reward": 0.07050018012523651,
+                "creation_time": 1609454527.678485
+            },
+            {
+                "steps": 2999806,
+                "file_path": "results\\drive_on_city\\Car\\Car-2999806.onnx",
+                "reward": 2.3094376660883427,
+                "creation_time": 1609456315.6319342
+            },
+            {
+                "steps": 3499752,
+                "file_path": "results\\drive_on_city\\Car\\Car-3499752.onnx",
+                "reward": 1.9655000120401382,
+                "creation_time": 1609458174.6770694
+            },
+            {
+                "steps": 3944682,
+                "file_path": "results\\drive_on_city\\Car\\Car-3944682.onnx",
+                "reward": null,
+                "creation_time": 1609459854.9156964
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3944682,
+            "file_path": "results\\drive_on_city\\Car.onnx",
+            "reward": null,
+            "creation_time": 1609459854.9156964
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1+cu110",
+        "tensorflow_version": -1
+    }
+}

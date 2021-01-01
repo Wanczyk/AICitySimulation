@@ -7,10 +7,6 @@ public class Movement : MonoBehaviour
 {
     public WheelCollider frontLeftWheelCollider;
     public WheelCollider frontRightWheelCollider;
-    public WheelCollider backLeftWheelCollider;
-    public WheelCollider backRightWheelCollider;
-    public GameObject frontLeftWheel;
-    public GameObject frontRightWheel;
     public float maxMotorTorque;
     public float maxBrakeTorque;
     public float maxSteeringAngle;
@@ -18,33 +14,31 @@ public class Movement : MonoBehaviour
     public float currentSpeed;
     public bool manual;
     
-    private float m_steering = 0;
-    private float m_throttle = 0;
-    private float m_brake = 0;
+    private float _steering = 0;
+    private float _throttle = 0;
+    private float _brake = 0;
 
     public void SetSteering(float value)
     {
-        m_steering = Mathf.Clamp(value, -1, 1);
+        _steering = Mathf.Clamp(value, -1, 1);
     }
 
     public void SetThrottle(float value)
     {
-        m_throttle = Mathf.Clamp(value, 0, 1);
+        _throttle = Mathf.Clamp(value, 0, 1);
     }
     
     public void SetBrake(float value)
     {
-        m_brake = Mathf.Clamp(value, 0, 1);
+        _brake = Mathf.Clamp(value, 0, 1);
     }
 
     public float CurrentSpeed => currentSpeed;
 
-    // Start is called before the first frame update
     void Start()
     {
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (manual)
@@ -88,7 +82,7 @@ public class Movement : MonoBehaviour
 
     void Steer()
     {
-        float steerAngle = maxSteeringAngle * m_steering;
+        float steerAngle = maxSteeringAngle * _steering;
         
         frontLeftWheelCollider.steerAngle = steerAngle;
         frontRightWheelCollider.steerAngle = steerAngle;
@@ -98,7 +92,7 @@ public class Movement : MonoBehaviour
     {
         currentSpeed = 2 * Mathf.PI * frontLeftWheelCollider.radius * frontLeftWheelCollider.rpm * 60 / 1000;
         
-        float motorTorque = maxMotorTorque * m_throttle;
+        float motorTorque = maxMotorTorque * _throttle;
         
         if (currentSpeed < maxSpeed) {
             frontLeftWheelCollider.motorTorque = motorTorque;
@@ -111,7 +105,7 @@ public class Movement : MonoBehaviour
 
     void Brake()
     {
-        float brakeTorque = maxBrakeTorque * m_brake;
+        float brakeTorque = maxBrakeTorque * _brake;
 
         frontLeftWheelCollider.brakeTorque = brakeTorque;
         frontRightWheelCollider.brakeTorque = brakeTorque;

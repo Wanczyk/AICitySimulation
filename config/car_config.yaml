@@ -2,8 +2,8 @@ behaviors:
   Car:
     trainer_type: ppo
     hyperparameters:
-      batch_size: 1024
-      buffer_size: 10240
+      batch_size: 10
+      buffer_size: 100
       learning_rate: 3.0e-4
       beta: 5.0e-3
       epsilon: 0.2
@@ -13,10 +13,7 @@ behaviors:
     network_settings:
       normalize: false
       hidden_units: 128
-      num_layers: 2
-      memory:
-        memory_size: 256
-        sequence_length: 64
+      num_layers: 3
     reward_signals:
       extrinsic:
         gamma: 0.99
@@ -24,3 +21,5 @@ behaviors:
     max_steps: 1e9
     time_horizon: 1000
     summary_freq: 30000
+
+    

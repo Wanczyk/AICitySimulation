@@ -7,8 +7,6 @@ cattrs==1.0.0
 certifi==2020.11.8
 chardet==3.0.4
 cloudpickle==1.6.0
-dataclasses==0.6
-future==0.18.2
 gast==0.3.3
 google-auth==1.23.0
 google-auth-oauthlib==0.4.2
@@ -42,9 +40,6 @@ tensorflow-estimator==2.3.0
 tensorflow-gpu==2.3.1
 tensorflow-gpu-estimator==2.3.0
 termcolor==1.1.0
-torch==1.1.0
-torchvision==0.3.0
-typing-extensions==3.7.4.3
 urllib3==1.25.11
 Werkzeug==1.0.1
 wrapt==1.12.1

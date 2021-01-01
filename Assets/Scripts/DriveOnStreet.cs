@@ -25,9 +25,10 @@ public class DriveOnStreet : Agent
     private int _nextCheckPointIndex = 1;
     private bool _targetReached = false;
     private float _oldDistance;
-    private int _scalar = 1;
     private bool _firstEpisode = true;
     private bool _posOccupied;
+    private float xBorder = 12;
+    private float zBorder = 12;
 
     protected Vector3 AgentVelocity
     {
@@ -50,7 +51,7 @@ public class DriveOnStreet : Agent
     {
         if(!clockwise)
         {
-            _nextCheckPointIndex = 4;
+            _nextCheckPointIndex = target.Count;
         }
         _lastCheckTime = Time.time;
         _oldDistance = Vector3.Distance(
@@ -63,10 +64,19 @@ public class DriveOnStreet : Agent
 
     public void FixedUpdate()
     {
-        if (!((Time.time - _lastCheckTime) > xSeconds) && _movementController.CurrentSpeed < 1) return;
-        // CheckDistanceToTarget();
+        if (!((Time.time - _lastCheckTime) > xSeconds) && _movementController.CurrentSpeed < 1){
+            CheckDistanceToTarget();
+        }       
         RaycastObservations();
-        _lastCheckTime = Time.time;
+        // _lastCheckTime = Time.time;
+        // if (this.transform.localPosition.y < 0 || 
+        //     this.transform.localPosition.x > xBorder || 
+        //     this.transform.localPosition.z > zBorder || 
+        //     this.transform.localPosition.x < xBorder * -1 || 
+        //     this.transform.localPosition.z < zBorder * -1)
+        // {
+        //     EndEpisode();
+        // }
     }
 
     public override void OnEpisodeBegin()
@@ -75,22 +85,16 @@ public class DriveOnStreet : Agent
         _posOccupied = true;
         if (!_targetReached)
         {
-            _scalar = 1;
-            if(!_firstEpisode)
-            {
                 RespawnAgent();
-            }
-            // RespawnAgent();
-            
         }
         _firstEpisode = false;
         _targetReached = false;
         _nextCheckPointIndex = 1;
         if(!clockwise)
         {
-            _nextCheckPointIndex = 4;
+            _nextCheckPointIndex = target.Count;
         }
-        
+        // RespawnTarget();
     }
 
     public override void OnActionReceived(float[] action)
@@ -121,7 +125,6 @@ public class DriveOnStreet : Agent
         if (trigger.transform.gameObject.name == "CheckPoint" + _nextCheckPointIndex.ToString())
         {
             AddReward(1f);
-            _scalar++;
             if (_nextCheckPointIndex == target.Count && clockwise)
             {
                 // _nextCheckPointIndex = 1;
@@ -180,6 +183,8 @@ public class DriveOnStreet : Agent
         
         float radius = (5f);
         float randomZ = 0f;
+        
+        bool _posOccupied = true;
         while(_posOccupied)
         {
             bool _car = false;
@@ -229,7 +234,7 @@ public class DriveOnStreet : Agent
 
         if((int)(_oldDistance*1000) == (int)(distanceToTarget*1000))
         {
-            AddReward(-0.1f);
+            // AddReward(-0.1f);
             EndEpisode();
         }
         _oldDistance = distanceToTarget;
@@ -275,15 +280,43 @@ public class DriveOnStreet : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         Vector3 dirToTarget = (target[_nextCheckPointIndex - 1].position - this.transform.position).normalized;
-        
         sensor.AddObservation(
-            this.transform.InverseTransformPoint(target[_nextCheckPointIndex - 1].transform.position)); // vec 3
-
+            this.transform.InverseTransformPoint(target[_nextCheckPointIndex - 1].transform.position));
         sensor.AddObservation(
-            this.transform.InverseTransformVector(AgentVelocity)); // vec 3
-
+            this.transform.InverseTransformVector(AgentVelocity));
         sensor.AddObservation(
-            this.transform.InverseTransformDirection(dirToTarget)); // vec 3
+            this.transform.InverseTransformDirection(dirToTarget));
     }
 
+    void RespawnAgent_simple()
+    {
+        _movementController.SetThrottle(1);
+        _movementController.SetSteering(0);
+        // _movementController.SetBrake(1);
+        _rigidBody.velocity = Vector3.zero;
+        _rigidBody.angularVelocity = Vector3.zero;
+
+        this.transform.localPosition = new Vector3(1.7f, 1f, 0f);
+        this.transform.rotation = Quaternion.Euler(0, Random.Range(-20, 20), 0);
+    }
+
+    void RespawnAgent_to_target()
+    {
+        _movementController.SetThrottle(1);
+        _movementController.SetSteering(0);
+        // _movementController.SetBrake(1);
+        _rigidBody.velocity = Vector3.zero;
+        _rigidBody.angularVelocity = Vector3.zero;
+
+        this.transform.localPosition = new Vector3(Random.Range(xBorder * -1, xBorder), 1f, Random.Range(zBorder * -1, zBorder));
+        this.transform.rotation = Quaternion.Euler(0, Random.Range(-180, 180), 0);
+    }
+
+    void RespawnTarget()
+    {
+        target[_nextCheckPointIndex - 1].localPosition = new Vector3(Random.Range(xBorder * -1, xBorder),
+            0.5f,
+            Random.Range(zBorder * -1, zBorder));
+        target[_nextCheckPointIndex - 1].rotation = Quaternion.Euler(0, Random.Range(-180, 180), 0);
+    }
 }

@@ -348,10 +348,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontLeftWheelCollider: {fileID: 6508713409486995261}
   frontRightWheelCollider: {fileID: 2576601984214867045}
-  backLeftWheelCollider: {fileID: 7685558037489124406}
-  backRightWheelCollider: {fileID: 3940137587230723285}
-  frontLeftWheel: {fileID: 1818330413525893384}
-  frontRightWheel: {fileID: 2654617305889517072}
   maxMotorTorque: 500
   maxBrakeTorque: 800
   maxSteeringAngle: 45
@@ -373,15 +369,21 @@ MonoBehaviour:
   m_BrainParameters:
     VectorObservationSize: 9
     NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 2
+      BranchSizes: 
     VectorActionSize: 02000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
+    hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Car
   TeamId: 0
   m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
 --- !u!114 &977391808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +399,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 1500000
+  MaxStep: 1000000000
   xSeconds: 0.5
   target:
   - {fileID: 0}
@@ -491,7 +493,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 1500000
+  MaxStep: 1000000000
 --- !u!1 &2451285109639250155
 GameObject:
   m_ObjectHideFlags: 0
